@@ -1,9 +1,8 @@
-import { Outlet } from "react-router-dom";
-
 function CreateHousePage() {
-    return
-    <>
-    </>
+    return (
+        <>
+        </>
+    )
 }
 
 export default CreateHousePage;
