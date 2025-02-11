@@ -3,9 +3,12 @@ import HouseDetailPage from "./pages/HouseDetailPage";
 import CreateHousePage from "./pages/CreateHousePage";
 import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
-
-import "bootstrap/dist/css/bootstrap.min.css";
 import AppLayout from "./layouts/AppLayout";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+
+
 
 function App() {
 
