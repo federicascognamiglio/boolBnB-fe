@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 
-
 function AppHeader() {
     return (
         <>
@@ -14,7 +13,6 @@ function AppHeader() {
                         <div class="navbar-nav">
                             <a class="nav-link active" aria-current="page" href="/">Home</a>
                             <a class="nav-link" href="/search">Search</a>
-                            <a class="nav-link" href="/detail">Detail</a>
                             <a class="nav-link" href="/create">Create</a>
                         </div>
                     </div>

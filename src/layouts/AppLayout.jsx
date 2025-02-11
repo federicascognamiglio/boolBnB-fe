@@ -7,8 +7,9 @@ function AppLayout() {
     <>
         <AppHeader />
 
-        <main>
-            {/* <Outlet /> */}
+        <main className="container mt-5">
+            <Outlet />
+            <h1>SUCAAAAAA</h1>
         </main>
 
         <AppFooter />

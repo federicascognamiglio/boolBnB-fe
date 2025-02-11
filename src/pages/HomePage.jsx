@@ -1,9 +1,10 @@
-import { Outlet } from "react-router-dom";
+import HouseCard from "../components/HouseCard";
 
 function HomePage() {
-    return
+    return (
     <>
     </>
+    )
 }
 
 export default HomePage;
