@@ -7,16 +7,16 @@ function AppFooter() {
       style={{ backgroundColor: "#013220", color: "gold", fontSize: "0.8rem" }}
     >
       <div className="container">
-        <div className="row p-2">
+        <div className="row ">
           {/* Sezione Contatti */}
-          <div className="col-md-3 mb-1">
+          <div className="col-md-4 mb-1">
             <h5 style={{ fontSize: "1rem" }}>Contatti</h5>
             <p>Email: info@azienda.com</p>
             <p>Telefono: +39 0123 456789</p>
             <p>Indirizzo: Via Esempio 1, Città</p>
           </div>
           {/* Sezione Lavora con noi */}
-          <div className="col-md-3 mb-1">
+          <div className="col-md-4 mb-1">
             <h5 style={{ fontSize: "1rem" }}>Lavora con noi</h5>
             <p>
               <a href="#" className="text-decoration-none text-warning">
@@ -35,7 +35,7 @@ function AppFooter() {
             </p>
           </div>
           {/* Sezione Link Utili */}
-          <div className="col-md-3 mb-1">
+          <div className="col-md-4 mb-1">
             <h5 style={{ fontSize: "1rem" }}>Link Utili</h5>
             <p>
               <a href="#" className="text-decoration-none text-warning">
@@ -50,25 +50,6 @@ function AppFooter() {
             <p>
               <a href="#" className="text-decoration-none text-warning">
                 Termini e Condizioni
-              </a>
-            </p>
-          </div>
-          {/* Sezione Sponsors */}
-          <div className="col-md-3 mb-1">
-            <h5 style={{ fontSize: "1rem" }}>Sponsors</h5>
-            <p>
-              <a href="#" className="text-decoration-none text-warning">
-                Sponsor 1
-              </a>
-            </p>
-            <p>
-              <a href="#" className="text-decoration-none text-warning">
-                Sponsor 2
-              </a>
-            </p>
-            <p>
-              <a href="#" className="text-decoration-none text-warning">
-                Sponsor 3
               </a>
             </p>
           </div>
