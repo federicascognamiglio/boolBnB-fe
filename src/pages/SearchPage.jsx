@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HouseCard from "../components/HouseCard";
+// import HouseCard from "../components/HouseCard";
 import axios from "axios";
 
 function SearchPage() {
@@ -93,7 +93,7 @@ function SearchPage() {
         {results.length > 0 ? (
           results.map((house) => (
             <div className="col-md-4 mb-3" key={house.id}>
-              <HouseCard house={house} />
+              {/* <HouseCard house={house} /> */}
             </div>
           ))
         ) : (
