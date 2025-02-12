@@ -1,106 +1,126 @@
 import React, { useState } from "react";
-// import HouseCard from "../components/HouseCard";
+import HouseCard from "../components/HouseCard";
 import axios from "axios";
 
 function SearchPage() {
-  const [city, setCity] = useState("");
-  const [minRooms, setMinRooms] = useState("");
-  const [minBeds, setMinBeds] = useState("");
-  const [propertyType, setPropertyType] = useState("");
-  const [results, setResults] = useState([]);
+  const apiUrl = import.meta.env.VITE_BACKEND_URL
 
-  const searchHouses = async () => {
-    try {
-      // Chiamata al backend per recuperare gli immobili
-      const response = await axios.get("http://localhost:3000/api/annunci", {
-        params: { city, minRooms, minBeds, propertyType },
-      });
+  const defaultFormValue = {
+    city: "",
+    minRooms: "",
+    minBeds: "",
+    propertyType: "",
+  }
 
-      // Mappiamo gli immobili ottenuti dal database
-      const houses = response.data.map((house) => ({
-        id: house.id,
-        indirizzo_completo: house.indirizzo_completo,
-        tipologia: house.tipologia,
-        numero_camere: house.numero_camere,
-        numero_letti: house.numero_letti,
-        numero_bagni: house.numero_bagni,
-        metri_quadrati: house.metri_quadrati,
-        likes: house.likes || 0, // Se il valore è NULL, assegniamo 0
-        recensioni: house.recensioni_count || 0, // Il backend deve fornire questo valore
-      }));
+  const [formValue, setFormValue] = useState(defaultFormValue)
+  const [annuncements, setAnnuncements] = useState([]);
 
-      // Ordiniamo gli immobili per numero di likes (gradimento)
-      const sortedResults = houses.sort((a, b) => b.likes - a.likes);
-      setResults(sortedResults);
-    } catch (error) {
-      console.error("Errore durante la ricerca:", error);
+  function handleInputChange(event) {
+    const keyToChange = event.target.name
+    const valueToChange = event.target.value
+
+    const newFormValue = {
+      ...formValue,
+      [keyToChange]: valueToChange
     }
-  };
+    setFormValue(newFormValue)
+  }
+
+  function getAnnuncements() {
+    const params = {
+      indirizzo_completo: ""
+    }
+
+    if (formValue.city.length > 0) {
+      params.indirizzo_completo = formValue.city
+    }
+
+    // Bisogna passare le chiavi dinamiche all'indirizzo Url nei Params
+    let indirizzo = "indirizzo_completo"
+    let valore = "Milano"
+
+    axios.get(`${apiUrl}/houses${params && `?${indirizzo}=${formValue.city}`}`).then((resp) => {
+      console.log(resp)
+      setAnnuncements(resp.data.data)
+    })
+  }
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-3">Cerca un immobile</h2>
+    <>
+      {/* Titolo */}
+      <h2 className="mb-3">La tua ricerca</h2>
 
-      <div className="row g-3">
-        <div className="col-md-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Città o indirizzo"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
+      {/* Barra ricerca avanzata */}
+      <section className="py-3">
+        <div className="row g-3">
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Città o indirizzo"
+              name="city"
+              value={formValue.city}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-2">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Min. stanze"
+              name="minRooms"
+              value={formValue.minRooms}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-2">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Min. posti letto"
+              name="minBeds"
+              value={formValue.minBeds}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-3">
+            <select
+              className="form-control"
+              name="propertyType"
+              id="propertyType"
+              value={formValue.propertyType}
+              onChange={handleInputChange}
+            >
+              <option>Seleziona tipologia</option>
+              <option value="Appartamento">Appartamento</option>
+              <option value="Villa">Villa</option>
+              <option value="Casa Indipendente">Casa Indipendente</option>
+              <option value="Chalet">Monolocale</option>
+            </select>
+          </div>
+          <div className="col-md-2">
+            <button
+              type="search"
+              className="btn btn-primary"
+              onClick={getAnnuncements}
+            >
+              Cerca
+            </button>
+          </div>
         </div>
-        <div className="col-md-2">
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Min. stanze"
-            value={minRooms}
-            onChange={(e) => setMinRooms(e.target.value)}
-          />
-        </div>
-        <div className="col-md-2">
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Min. posti letto"
-            value={minBeds}
-            onChange={(e) => setMinBeds(e.target.value)}
-          />
-        </div>
-        <div className="col-md-3">
-          <select
-            className="form-control"
-            value={propertyType}
-            onChange={(e) => setPropertyType(e.target.value)}
-          >
-            <option value="">Seleziona tipologia</option>
-            <option value="Appartamento">Appartamento</option>
-            <option value="Villa">Villa</option>
-            <option value="Monolocale">Monolocale</option>
-            <option value="Casa Indipendente">Casa Indipendente</option>
-          </select>
-        </div>
-        <div className="col-md-2">
-          <button className="btn btn-primary w-100" onClick={searchHouses}>
-            Cerca
-          </button>
-        </div>
-      </div>
+      </section>
 
-      <div className="row mt-4">
-        {results.length > 0 ? (
-          results.map((house) => (
-            <div className="col-md-4 mb-3" key={house.id}>
-              {/* <HouseCard house={house} /> */}
+      {/* Lista annunci */}
+      <section className="py-3">
+        {
+          annuncements.map((curAnnuncement) => (
+            <div key={curAnnuncement.id} className="col">
+              <HouseCard house={curAnnuncement} page="SearchPage" url={apiUrl} />
             </div>
           ))
-        ) : (
-          <p className="mt-3 text-center">Nessun immobile trovato.</p>
-        )}
-      </div>
-    </div>
+        }
+      </section>
+    </>
   );
 }
 
