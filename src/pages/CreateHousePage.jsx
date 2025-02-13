@@ -7,19 +7,19 @@ function CreateHousePage() {
     const navigate = useNavigate()
 
     const defaultFormValue = {
-        titolo_annuncio: "test1",
-        descrizione_annuncio: "ciaociaociaociaociaocaicoaca",
-        tipologia: "Appartamento",
-        numero_camere: 3,
-        numero_letti: 4,
-        numero_bagni: 1,
-        metri_quadrati: 70,
-        indirizzo: "Via Como",
-        cap: "23345",
-        citta: "Torino",
-        paese: "Italia",
-        email_proprietario: "test@gmail.com",
-        stato_annuncio: "attivo",
+        titolo_annuncio: "",
+        descrizione_annuncio: "",
+        tipologia: "",
+        numero_camere: "",
+        numero_letti: "",
+        numero_bagni: "",
+        metri_quadrati: "",
+        indirizzo: "",
+        cap: "",
+        citta: "",
+        paese: "",
+        email_proprietario: "",
+        stato_annuncio: "",
         foto: "",
         descrizione_immagine: ""
     };
