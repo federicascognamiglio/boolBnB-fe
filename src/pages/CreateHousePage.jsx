@@ -19,7 +19,7 @@ function CreateHousePage() {
         citta: "",
         paese: "",
         email_proprietario: "",
-        stato_annuncio: "",
+        stato_annuncio: "attivo",
         foto: "",
         descrizione_immagine: ""
     };
