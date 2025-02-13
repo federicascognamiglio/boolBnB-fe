@@ -1,10 +1,14 @@
 import HouseCard from "../components/HouseCard"
 import { useState, useEffect } from "react"
+// import { useNavigation } from '@react-navigation/native';
 import axios from "axios"
 
 function HomePage() {
     // Dati
     const apiUrl = import.meta.env.VITE_BACKEND_URL
+
+    // const navigation = useNavigation();
+
     // Variabili di stato
     const [annuncements, setAnnuncements] = useState([])
     const [search, setSearch] = useState("")
@@ -44,6 +48,9 @@ function HomePage() {
                     onClick={getAnnuncements}>
                         Search
                     </button>
+                    {/* () => {  navigation.navigate('/search', {
+                        initialParam: search
+                      });} */}
                 </div>
             </section>
 

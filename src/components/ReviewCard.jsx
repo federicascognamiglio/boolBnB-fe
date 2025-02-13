@@ -1,13 +1,15 @@
-function ReviewCard() {
+function ReviewCard({ review }) {
     return (
-        <div className="row">
-            <div class="card review mb-3 col-4">
-                <div class="card-body">
-                    <h5 class="card-title">Recensione Utente 1</h5>
-                    <p class="card-text">E' stata veramente un'esperienza orribile, la casa era na merda! Sembrava la casa di Yufei!</p>
-                </div>
+
+        <div className="card review mb-3">
+            <div className="card-body">
+                <h5 className="card-title">{review.nome}</h5>
+                <p className="card-text">{review.commento}</p>
+                <p>{review.giorni_permanenza}</p>
+                <p>{review.data_recensione}</p>
             </div>
         </div>
+
     )
 }
 

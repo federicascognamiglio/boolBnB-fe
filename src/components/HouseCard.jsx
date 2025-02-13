@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, NavLink } from "react-router-dom";
 
 function HouseCard({ house, page, url }) {
 
@@ -21,6 +22,9 @@ function HouseCard({ house, page, url }) {
                         </>
                     )
                 }
+                <Link to={`/detail/${house.slug}`} className="btn btn-success">
+                    Dettagli
+                </Link>
             </div>
         </div >
     );

@@ -19,7 +19,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/detail" element={<HouseDetailPage />} />
+            <Route path="/detail/:slug" element={<HouseDetailPage />} />
             <Route path="/create" element={<CreateHousePage />} />
           </Route>
         </Routes>

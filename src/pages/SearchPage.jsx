@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+// import { useNavigation } from '@react-navigation/native';
 import HouseCard from "../components/HouseCard";
 
 function SearchPage() {
@@ -12,8 +13,11 @@ function SearchPage() {
     tipologia: ""
   }
 
+  // const navigation = useNavigation();
   const [formValue, setFormValue] = useState(defaultFormValue)
   const [annuncements, setAnnuncements] = useState([]);
+  // const { initialParams } = route.params;
+  // console.log(initialParams);
 
   function handleInputChange(event) {
     const keyToChange = event.target.name
@@ -128,7 +132,7 @@ function SearchPage() {
               {
                 annuncements.map((curAnnuncement) => (
                   <div key={curAnnuncement.id} className="col">
-                    <HouseCard house={curAnnuncement} page="HomePage" url={apiUrl} />
+                    <HouseCard house={curAnnuncement} page="SearchPage" url={apiUrl} />
                   </div>
                 ))
               }
