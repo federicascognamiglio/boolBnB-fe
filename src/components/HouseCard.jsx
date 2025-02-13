@@ -3,8 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function HouseCard({ house, page, url }) {
 
-
-    const imgUrl = house.foto && house.foto.length > 0 ? `${url}/${house.foto[0]}` : "https://placehold.co/600x400"
+    const imgUrl = house.foto && house.foto.length > 0 ? `${url}/images/${house.foto[0]}` : "https://placehold.co/600x400"
     
     return (
         <div className="card h-100">

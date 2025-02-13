@@ -24,7 +24,7 @@ function HouseDetailPage() {
     getAnnuncements()
   }, [])
 
-  const imgUrl = annuncements.foto && annuncements.foto.length > 0 ? `${url}/${annuncements.foto[0]}` : "https://placehold.co/600x400"
+  const imgUrl = annuncements.foto && annuncements.foto.length > 0 ? `${apiUrl}/images/${annuncements.foto[0]}` : "https://placehold.co/600x400"
 
 
   return (
