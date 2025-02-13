@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import HouseCard from "../components/HouseCard";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import HouseCard from "../components/HouseCard";
 
 function SearchPage() {
   const apiUrl = import.meta.env.VITE_BACKEND_URL
 
   const defaultFormValue = {
-    city: "",
-    minRooms: "",
-    minBeds: "",
-    propertyType: "",
+    indirizzo_completo: "",
+    numero_camere: "",
+    numero_letti: "",
+    tipologia: ""
   }
 
   const [formValue, setFormValue] = useState(defaultFormValue)
@@ -27,23 +27,33 @@ function SearchPage() {
   }
 
   function getAnnuncements() {
-    const params = {
-      indirizzo_completo: ""
-    }
+    const params = {}
 
-    if (formValue.city.length > 0) {
-      params.indirizzo_completo = formValue.city
+    if (formValue.indirizzo_completo.length > 0) {
+      params.indirizzo_completo = formValue.indirizzo_completo; // citta: milano
+    }
+    if (formValue.numero_camere.length > 0) {
+      params.numero_camere = formValue.numero_camere; // minstanze: 2
+    }
+    if (formValue.numero_letti.length > 0) {
+      params.numero_letti = formValue.numero_letti;
+    }
+    if (formValue.tipologia.length > 0) {
+      params.tipologia = formValue.tipologia;
     }
 
     // Bisogna passare le chiavi dinamiche all'indirizzo Url nei Params
-    let indirizzo = "indirizzo_completo"
-    let valore = "Milano"
+    const queryString = new URLSearchParams(params).toString() 
 
-    axios.get(`${apiUrl}/houses${params && `?${indirizzo}=${formValue.city}`}`).then((resp) => {
+    axios.get(`${apiUrl}/houses?${queryString}`).then((resp) => {
       console.log(resp)
       setAnnuncements(resp.data.data)
     })
   }
+
+  useEffect(() => {
+    getAnnuncements()
+  }, [])
 
   return (
     <>
@@ -57,9 +67,9 @@ function SearchPage() {
             <input
               type="text"
               className="form-control"
-              placeholder="Città o indirizzo"
-              name="city"
-              value={formValue.city}
+              placeholder="Cerca destinazione"
+              name="indirizzo_completo"
+              value={formValue.indirizzo_completo}
               onChange={handleInputChange}
             />
           </div>
@@ -67,9 +77,9 @@ function SearchPage() {
             <input
               type="number"
               className="form-control"
-              placeholder="Min. stanze"
-              name="minRooms"
-              value={formValue.minRooms}
+              placeholder="Quante camere"
+              name="numero_camere"
+              value={formValue.numero_camere}
               onChange={handleInputChange}
             />
           </div>
@@ -77,18 +87,18 @@ function SearchPage() {
             <input
               type="number"
               className="form-control"
-              placeholder="Min. posti letto"
-              name="minBeds"
-              value={formValue.minBeds}
+              placeholder="Quanti letti"
+              name="numero_letti"
+              value={formValue.numero_letti}
               onChange={handleInputChange}
             />
           </div>
           <div className="col-md-3">
             <select
               className="form-control"
-              name="propertyType"
-              id="propertyType"
-              value={formValue.propertyType}
+              name="tipologia"
+              id="tipologia"
+              value={formValue.tipologia}
               onChange={handleInputChange}
             >
               <option>Seleziona tipologia</option>
@@ -113,12 +123,21 @@ function SearchPage() {
       {/* Lista annunci */}
       <section className="py-3">
         {
-          annuncements.map((curAnnuncement) => (
-            <div key={curAnnuncement.id} className="col">
-              <HouseCard house={curAnnuncement} page="SearchPage" url={apiUrl} />
+          annuncements.length > 0 ? (
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+              {
+                annuncements.map((curAnnuncement) => (
+                  <div key={curAnnuncement.id} className="col">
+                    <HouseCard house={curAnnuncement} page="HomePage" url={apiUrl} />
+                  </div>
+                ))
+              }
             </div>
-          ))
+          ) : (
+            <div className="alert alert-danger">Nessun annuncio trovato</div>
+          )
         }
+
       </section>
     </>
   );
