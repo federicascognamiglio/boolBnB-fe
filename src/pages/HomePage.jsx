@@ -1,13 +1,10 @@
 import HouseCard from "../components/HouseCard"
 import { useState, useEffect } from "react"
-// import { useNavigation } from '@react-navigation/native';
 import axios from "axios"
 
 function HomePage() {
     // Dati
     const apiUrl = import.meta.env.VITE_BACKEND_URL
-
-    // const navigation = useNavigation();
 
     // Variabili di stato
     const [annuncements, setAnnuncements] = useState([])
@@ -23,13 +20,15 @@ function HomePage() {
 
         axios.get(`${apiUrl}/houses`, { params }).then((resp) => {
             setAnnuncements(resp.data.data)
+            // console.log(resp);
+            
         })
     }
 
     useEffect(() => {
         getAnnuncements()
     }, [])
-
+    
     return (
         <>
             <h1 className="mb-4">Appartamenti in affitto</h1>
@@ -56,7 +55,7 @@ function HomePage() {
 
             {/* Lista annunci */}
             <section className="py-3">
-                {
+                { annuncements && 
                     annuncements.length > 0 ? (
                         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                             {
@@ -71,8 +70,6 @@ function HomePage() {
                         <div className="alert alert-danger">Nessun annuncio trovato</div>
                     )
                 }
-
-                {/* <HouseCard /> */}
             </section>
         </>
     )
