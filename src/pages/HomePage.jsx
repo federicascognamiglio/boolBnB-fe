@@ -1,10 +1,12 @@
 import HouseCard from "../components/HouseCard"
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom";
 import axios from "axios"
 
 function HomePage() {
     // Dati
     const apiUrl = import.meta.env.VITE_BACKEND_URL
+    const navigate = useNavigate()
 
     // Variabili di stato
     const [annuncements, setAnnuncements] = useState([])
@@ -20,8 +22,6 @@ function HomePage() {
 
         axios.get(`${apiUrl}/houses`, { params }).then((resp) => {
             setAnnuncements(resp.data.data)
-            // console.log(resp);
-            
         })
     }
 
@@ -38,30 +38,24 @@ function HomePage() {
                     <input
                         type="search"
                         value={search}
-                        className="form-control"
+                        className="form-control me-2"
                         placeholder="Dove vuoi andare..."
                         onChange={(event) => setSearch(event.target.value)}
                     />
-                    <button 
-                    className="btn btn-light" 
-                    onClick={getAnnuncements}>
-                        Search
-                    </button>
-                    {/* () => {  navigation.navigate('/search', {
-                        initialParam: search
-                      });} */}
+                    <button className="btn btn-light" onClick={() => { navigate(`/search?indirizzo_completo=${encodeURIComponent(search)}`);}}>Cerca</button>
                 </div>
             </section>
 
             {/* Lista annunci */}
             <section className="py-3">
+                <h4 className="mb-3">I più amati</h4>
                 { annuncements && 
                     annuncements.length > 0 ? (
                         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                             {
                                 annuncements.map((curAnnuncement) => (
                                     <div key={curAnnuncement.id} className="col">
-                                        <HouseCard house={curAnnuncement} page="HomePage" url={apiUrl} />
+                                        <HouseCard house={curAnnuncement} page="HomePage" url={apiUrl} resetAnnuncements={getAnnuncements}/>
                                     </div>
                                 ))
                             }

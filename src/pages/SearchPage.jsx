@@ -1,13 +1,16 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-// import { useNavigation } from '@react-navigation/native';
+import { useLocation } from "react-router-dom";
 import HouseCard from "../components/HouseCard";
 
 function SearchPage() {
   const apiUrl = import.meta.env.VITE_BACKEND_URL
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const initialSearch = queryParams.get("indirizzo_completo") || ""
 
   const defaultFormValue = {
-    indirizzo_completo: "",
+    indirizzo_completo: initialSearch,
     numero_camere: "",
     numero_letti: "",
     tipologia: ""
@@ -15,23 +18,23 @@ function SearchPage() {
 
   // const navigation = useNavigation();
   const [formValue, setFormValue] = useState(defaultFormValue)
-  const [annuncements, setAnnuncements] = useState([]);
-  // const { initialParams } = route.params;
-  // console.log(initialParams);
+  const [annuncements, setAnnuncements] = useState([])
 
   function handleInputChange(event) {
+    //assegno ad una variabile il nome del tag su cui  avvenuto un evento
     const keyToChange = event.target.name
+    //assegno ad una variabile il valore del tag su cui è avvenuto l'evento
     const valueToChange = event.target.value
-
+    //prendo i nuovi valori e li inserisco nell'oggetto, in corrispondenza delle rispettive chiavi
     const newFormValue = {
-      ...formValue,
-      [keyToChange]: valueToChange
+      ...formValue, //seziono l'oggetto chiave per chiave
+      [keyToChange]: valueToChange //per ogni chiave
     }
-    setFormValue(newFormValue)
+    setFormValue(newFormValue) //aggiorno l'oggetto con i nuovi valori
   }
 
-  function getAnnuncements() {
-    const params = {}
+  function getAnnuncements() { //funzione di ricerca avanzata
+    const params = {} //è l'oggetto valorizzato dall'input dell'utente in base alla ricerca che vuole fare
 
     if (formValue.indirizzo_completo.length > 0) {
       params.indirizzo_completo = formValue.indirizzo_completo; // citta: milano
@@ -47,8 +50,8 @@ function SearchPage() {
     }
 
     // Bisogna passare le chiavi dinamiche all'indirizzo Url nei Params
-    const queryString = new URLSearchParams(params).toString() 
-
+    const queryString = new URLSearchParams(params).toString() //concatenare i parametri di ricerca nella query
+    //la chiamata api che non salva nessun dato, ma chiede solo i dati all'api
     axios.get(`${apiUrl}/houses?${queryString}`).then((resp) => {
       console.log(resp)
       setAnnuncements(resp.data.data)
@@ -57,7 +60,7 @@ function SearchPage() {
 
   useEffect(() => {
     getAnnuncements()
-  }, [])
+  }, [formValue.indirizzo_completo])
 
   return (
     <>
@@ -80,6 +83,7 @@ function SearchPage() {
           <div className="col-md-2">
             <input
               type="number"
+              min="0"
               className="form-control"
               placeholder="Quante camere"
               name="numero_camere"
@@ -90,6 +94,7 @@ function SearchPage() {
           <div className="col-md-2">
             <input
               type="number"
+              min="0"
               className="form-control"
               placeholder="Quanti letti"
               name="numero_letti"
@@ -126,22 +131,30 @@ function SearchPage() {
 
       {/* Lista annunci */}
       <section className="py-3">
-        { annuncements && 
-          annuncements.length > 0 ? (
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-              {
-                annuncements.map((curAnnuncement) => (
-                  <div key={curAnnuncement.id} className="col">
-                    <HouseCard house={curAnnuncement} page="SearchPage" url={apiUrl} />
-                  </div>
-                ))
-              }
-            </div>
-          ) : (
-            <div className="alert alert-danger">Nessun annuncio trovato</div>
+        {
+          formValue.indirizzo_completo !== "" && (
+            <h5 className="mb-3">
+              {formValue.indirizzo_completo.charAt(0).toUpperCase() + formValue.indirizzo_completo.slice(1)}{" "}
+              {annuncements.length}
+              {annuncements.length === 1 ? " struttura trovata" : " strutture trovate"}
+            </h5>
           )
         }
-
+        {annuncements &&
+          annuncements.length > 0 ? (
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {
+              annuncements.map((curAnnuncement) => (
+                <div key={curAnnuncement.id} className="col">
+                  <HouseCard house={curAnnuncement} page="SearchPage" url={apiUrl} resetAnnuncements={getAnnuncements} />
+                </div>
+              ))
+            }
+          </div>
+        ) : (
+          <div className="alert alert-danger">Nessun annuncio trovato</div>
+        )
+        }
       </section>
     </>
   );

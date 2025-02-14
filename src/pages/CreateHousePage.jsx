@@ -80,21 +80,17 @@ function CreateHousePage() {
     }
 
     function handleInputChange(event) {
-        console.log(event);
-
+        // console.log(event);
         const { name, value, files } = event.target;
 
         setFormValue(prevFormValue => ({
             ...prevFormValue,
             [name]: name === "foto" ? files[0] : value
         }));
-        console.log("Foto caricata:", files[0]);
-
     }
 
     function handleFormSubmit(event) {
         event.preventDefault()
-        console.log(formValue);
 
         if (!validateForm()) {
             return
@@ -110,17 +106,13 @@ function CreateHousePage() {
             }
         }
 
-        for (let pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
-
         axios.post(`${apiUrl}/houses`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         }).then((resp) => {
-            setFormValue(defaultFormValue)
-            navigate("/")
+            setFormValue(defaultFormValue) //setta il formValue con il valore di default, quindi lo azzerra
+            navigate("/") //riporta nella prima pagina del sito (spesso homepage)
         }).catch((error) => {
             console.error("Errore durante l'invio del form:", error);
         });
@@ -151,7 +143,7 @@ function CreateHousePage() {
                     <div className="col-12 mb-3">
                         <label htmlFor="tipologia">Tipologia *</label>
                         <select className="form-control" id="tipologia" name="tipologia" value={formValue.tipologia} onChange={handleInputChange}>
-                            <option defaultValue="Seleziona la tipologia">Seleziona la tipologia</option>
+                            <option>Seleziona la tipologia</option>
                             <option value="appartamento">Appartamento</option>
                             <option value="casa_indipendente">Casa Indipendente</option>
                             <option value="villa">Villa</option>
@@ -162,22 +154,22 @@ function CreateHousePage() {
                     </div>
                     <div className="col-4 mb-3">
                         <label htmlFor="stanze">Numero Stanze *</label>
-                        <input className="form-control" type="number" id="stanze" name="numero_camere" value={formValue.numero_camere} onChange={handleInputChange} />
+                        <input className="form-control" type="number" min="0" id="stanze" name="numero_camere" value={formValue.numero_camere} onChange={handleInputChange} />
                         {errors.numero_camere && <div className="text-danger">{errors.numero_camere}</div>}
                     </div>
                     <div className="col-4 mb-3">
                         <label htmlFor="letti">Numero Letti *</label>
-                        <input className="form-control" type="number" id="letti" name="numero_letti" value={formValue.numero_letti} onChange={handleInputChange} required />
+                        <input className="form-control" type="number" min="0" id="letti" name="numero_letti" value={formValue.numero_letti} onChange={handleInputChange} required />
                         {errors.numero_letti && <div className="text-danger">{errors.numero_letti}</div>}
                     </div>
                     <div className="col-4 mb-3">
                         <label htmlFor="bagni">Numero Bagni *</label>
-                        <input className="form-control" type="number" id="bagni" name="numero_bagni" value={formValue.numero_bagni} onChange={handleInputChange} required />
+                        <input className="form-control" type="number" min="0" id="bagni" name="numero_bagni" value={formValue.numero_bagni} onChange={handleInputChange} required />
                         {errors.numero_bagni && <div className="text-danger">{errors.numero_bagni}</div>}
                     </div>
                     <div className="col-12 mb-3">
                         <label htmlFor="mq">Metri Quadrati *</label>
-                        <input className="form-control" type="number" id="mq" name="metri_quadrati" value={formValue.metri_quadrati} onChange={handleInputChange} required />
+                        <input className="form-control" type="number" min="0" id="mq" name="metri_quadrati" value={formValue.metri_quadrati} onChange={handleInputChange} required />
                         {errors.metri_quadrati && <div className="text-danger">{errors.metri_quadrati}</div>}
                     </div>
                     <div className="col-3 mb-3">
