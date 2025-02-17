@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function ReviewForm({ id, resetAnnuncement }) {
     const apiUrl = import.meta.env.VITE_BACKEND_URL
@@ -69,9 +69,9 @@ function ReviewForm({ id, resetAnnuncement }) {
                     {errors.nome && <div className="text-danger">{errors.nome}</div>}
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="comment" className="form-label">Commento *</label>
+                    <label htmlFor="commento" className="form-label">Commento *</label>
                     <textarea onChange={handleReviewInput} name="commento" value={formValue.commento} className="form-control" id="comment" rows="4" placeholder="Scrivi la tua recensione" required></textarea>
-                    <div id="titolo_annuncio" className="form-text">
+                    <div id="commento" className="form-text">
                         La recensione deve essere di minimo 20 caratteri.
                     </div>
                     {errors.commento && <div className="text-danger">{errors.commento}</div>}

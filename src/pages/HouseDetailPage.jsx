@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReviewCard from "../components/ReviewCard";
 import ReviewForm from "../components/ReviewForm";
+import ContactForm from '../components/ContactForm';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
@@ -119,6 +120,12 @@ function HouseDetailPage() {
         <h2 className="text-center">Aggiungi una Recensione</h2>
         <p className='form-text text-center'>I campi contrassegnati con * sono obbligatori</p>
         <ReviewForm id={annuncements.id} resetAnnuncement={getAnnuncements} />
+      </section>
+
+      {/* Comunicazione */}
+      <section>
+        <h2 className="text-center">Contatta l'host</h2>
+        <ContactForm id={annuncements.id} />
       </section>
     </>
   );

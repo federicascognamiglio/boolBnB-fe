@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import axios from "axios"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CreateHousePage() {
     const apiUrl = import.meta.env.VITE_BACKEND_URL
@@ -120,8 +120,14 @@ function CreateHousePage() {
 
     return (
         <>
+            <nav aria-label="breadcrumb" className="pb-3">
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><a href="/" style={{color: "#013220"}}>Home</a></li>
+                    <li className="breadcrumb-item active" aria-current="page">Aggiungi annuncio</li>
+                </ol>
+            </nav>
             <h2>Aggiungi un nuovo annuncio</h2>
-            <p>I campi contrassegnati con * sono obbligatori</p>
+            <p className="pb-4">I campi contrassegnati con * sono obbligatori</p>
             <form className="py-4" onSubmit={handleFormSubmit}>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <div className="mb-3 mt-2">
@@ -202,7 +208,7 @@ function CreateHousePage() {
                     </div>
                     <div className="col-12 mb-3">
                         <label htmlFor="immagine">Immagine Immobile</label>
-                        <input className="form-control" type="file" multiple id="immagine" name="foto" onChange={handleInputChange} accept="image/*"/>
+                        <input className="form-control" type="file" multiple id="immagine" name="foto" onChange={handleInputChange} accept="image/*" />
                         {errors.foto && <div className="text-danger">{errors.foto}</div>}
                     </div>
                     <div className="mb-3">

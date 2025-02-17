@@ -53,14 +53,13 @@ function SearchPage() {
     const queryString = new URLSearchParams(params).toString() //concatenare i parametri di ricerca nella query
     //la chiamata api che non salva nessun dato, ma chiede solo i dati all'api
     axios.get(`${apiUrl}/houses?${queryString}`).then((resp) => {
-      console.log(resp)
       setAnnuncements(resp.data.data)
     })
   }
 
   useEffect(() => {
     getAnnuncements()
-  }, [formValue.indirizzo_completo])
+  }, [formValue])
 
   return (
     <>
@@ -110,7 +109,7 @@ function SearchPage() {
               value={formValue.tipologia}
               onChange={handleInputChange}
             >
-              <option>Seleziona tipologia</option>
+              <option value="">Seleziona tipologia</option>
               <option value="Appartamento">Appartamento</option>
               <option value="Villa">Villa</option>
               <option value="Casa Indipendente">Casa Indipendente</option>
@@ -132,11 +131,9 @@ function SearchPage() {
       {/* Lista annunci */}
       <section className="py-3">
         {
-          formValue.indirizzo_completo !== "" && (
+          formValue !== "" && (
             <h5 className="mb-3">
-              {formValue.indirizzo_completo.charAt(0).toUpperCase() + formValue.indirizzo_completo.slice(1)}{" "}
-              {annuncements.length}
-              {annuncements.length === 1 ? " struttura trovata" : " strutture trovate"}
+              <p>Risultato ricerca: {annuncements.length} {annuncements.length && annuncements.length === 1 ? " struttura trovata" : " strutture trovate"}</p>
             </h5>
           )
         }
