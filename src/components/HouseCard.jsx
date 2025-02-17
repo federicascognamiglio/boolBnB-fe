@@ -34,10 +34,10 @@ function HouseCard({ house, page, url, resetAnnuncements }) {
     }
 
     return (
-        <div className="card position-relative h-100" style={{cursor: "pointer"}} onClick={() => navigate(`/detail/${house.slug}`)}>
-            <div className="position-absolute top-0 end-0 mt-2 me-2">{addLike()}</div>
-            <img src={imgUrl} className="card-img-top" alt={`Immagine ${house.titolo_annuncio}`} />
-            <div className="card-body">
+        <div className="card h-100" style={{cursor: "pointer"}}>
+            <div className="position-absolute top-0 end-0 mt-2 me-2 z-5">{addLike()}</div>
+            <img src={imgUrl} className="card-img-top" alt={`Immagine ${house.titolo_annuncio}`} onClick={() => navigate(`/detail/${house.slug}`)}/>
+            <div className="card-body" onClick={() => navigate(`/detail/${house.slug}`)}>
                 <h5 className="card-title">{house.titolo_annuncio}</h5>
                 <span className="badge text-bg-primary mb-3">🏡 {house.tipologia}</span>
                 <p className="card-text">{house.indirizzo_completo}</p>
