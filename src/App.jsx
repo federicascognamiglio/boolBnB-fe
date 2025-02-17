@@ -4,11 +4,6 @@ import CreateHousePage from "./pages/CreateHousePage";
 import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
 import AppLayout from "./layouts/AppLayout";
-import "bootstrap/dist/css/bootstrap.min.css";
-
-
-
-
 
 function App() {
 
