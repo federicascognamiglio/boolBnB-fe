@@ -25,10 +25,17 @@ function HomePage() {
         })
     }
 
+    // Invio ricerca con tasto invio
+    const handleKeyUp = (event) => {
+        if (event.key === "Enter") {
+            navigate(`/search?indirizzo_completo=${encodeURIComponent(search)}`);
+        }
+    }
+
     useEffect(() => {
         getAnnuncements()
     }, [])
-    
+
     return (
         <>
             <h1 className="mb-4">Appartamenti in affitto</h1>
@@ -41,28 +48,29 @@ function HomePage() {
                         className="form-control me-2"
                         placeholder="Dove vuoi andare..."
                         onChange={(event) => setSearch(event.target.value)}
+                        onKeyUp={handleKeyUp}
                     />
-                    <button className="btn btn-light" onClick={() => { navigate(`/search?indirizzo_completo=${encodeURIComponent(search)}`);}}>Cerca</button>
+                    <button className="btn btn-light" onClick={() => { navigate(`/search?indirizzo_completo=${encodeURIComponent(search)}`); }}>Cerca</button>
                 </div>
             </section>
 
             {/* Lista annunci */}
             <section className="py-3">
                 <h4 className="mb-3">I più amati</h4>
-                { annuncements && 
+                {annuncements &&
                     annuncements.length > 0 ? (
-                        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                            {
-                                annuncements.map((curAnnuncement) => (
-                                    <div key={curAnnuncement.id} className="col">
-                                        <HouseCard house={curAnnuncement} page="HomePage" url={apiUrl} resetAnnuncements={getAnnuncements}/>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    ) : (
-                        <div className="alert alert-danger">Nessun annuncio trovato</div>
-                    )
+                    <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        {
+                            annuncements.map((curAnnuncement) => (
+                                <div key={curAnnuncement.id} className="col">
+                                    <HouseCard house={curAnnuncement} page="HomePage" url={apiUrl} resetAnnuncements={getAnnuncements} />
+                                </div>
+                            ))
+                        }
+                    </div>
+                ) : (
+                    <div className="alert alert-danger">Nessun annuncio trovato</div>
+                )
                 }
             </section>
         </>

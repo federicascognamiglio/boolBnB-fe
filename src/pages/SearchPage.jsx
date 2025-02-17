@@ -70,7 +70,9 @@ function SearchPage() {
       <section className="py-3">
         <div className="row g-3">
           <div className="col-md-3">
+            <label className="form-label" htmlFor="indirizzo_comleto">Città/indirizzo</label>
             <input
+              id="indirizzo_completo"
               type="text"
               className="form-control"
               placeholder="Cerca destinazione"
@@ -79,8 +81,10 @@ function SearchPage() {
               onChange={handleInputChange}
             />
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3">
+            <label className="form-label" htmlFor="numero_camere">Numero stanze</label>
             <input
+              id="numero_camere"
               type="number"
               min="0"
               className="form-control"
@@ -90,8 +94,10 @@ function SearchPage() {
               onChange={handleInputChange}
             />
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3">
+            <label className="form-label" htmlFor="numero_letti">Numero letti</label>
             <input
+              id="numero_letti"
               type="number"
               min="0"
               className="form-control"
@@ -102,6 +108,7 @@ function SearchPage() {
             />
           </div>
           <div className="col-md-3">
+            <label className="form-label" htmlFor="tipologia">Tipologia</label>
             <select
               className="form-control"
               name="tipologia"
@@ -116,7 +123,7 @@ function SearchPage() {
               <option value="Chalet">Monolocale</option>
             </select>
           </div>
-          <div className="col-md-2">
+          {/* <div className="col-md-2">
             <button
               type="search"
               className="btn btn-primary"
@@ -124,7 +131,7 @@ function SearchPage() {
             >
               Cerca
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
 

@@ -11,8 +11,11 @@ function ReviewForm({ id, resetAnnuncement }) {
         giorni_permanenza: ""
     };
 
+    // Variabili di Stato
     const [formValue, setFormValue] = useState(defaultFormValue);
-    const [errors, setErrors] = useState([]) 
+    const [errors, setErrors] = useState([]);
+    const [charCount, setCharCount] = useState(0);
+    const minCharCount = 20;
 
     function validateForm() {
         let newErrors = {}
@@ -43,6 +46,9 @@ function ReviewForm({ id, resetAnnuncement }) {
             [keyToChange]: valueToChange
         }
         setFormValue(newFormValue)
+        if (keyToChange === 'commento') {
+            setCharCount(valueToChange.length);
+        }
     }
 
     function handleFormSubmit(event) {
@@ -57,6 +63,7 @@ function ReviewForm({ id, resetAnnuncement }) {
 
             setFormValue(defaultFormValue)
             resetAnnuncement()
+            setCharCount(0)
         })
     }
 
@@ -68,12 +75,10 @@ function ReviewForm({ id, resetAnnuncement }) {
                     <input onChange={handleReviewInput} name="nome" value={formValue.nome} type="text" className="form-control" id="username" placeholder="Inserisci il tuo nome" required />
                     {errors.nome && <div className="text-danger">{errors.nome}</div>}
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 position-relative">
                     <label htmlFor="commento" className="form-label">Commento *</label>
                     <textarea onChange={handleReviewInput} name="commento" value={formValue.commento} className="form-control" id="comment" rows="4" placeholder="Scrivi la tua recensione" required></textarea>
-                    <div id="commento" className="form-text">
-                        La recensione deve essere di minimo 20 caratteri.
-                    </div>
+                    <div className="position-absolute bottom-0 end-0 mb-1 me-3 form-text">{`${charCount}/${minCharCount}`}</div>
                     {errors.commento && <div className="text-danger">{errors.commento}</div>}
                 </div>
                 <div className="mb-3">

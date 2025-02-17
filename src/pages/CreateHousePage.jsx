@@ -20,12 +20,15 @@ function CreateHousePage() {
         paese: "",
         email_proprietario: "",
         stato_annuncio: "attivo",
-        foto: "",
+        foto: [],
         descrizione_immagine: ""
     };
 
-    const [errors, setErrors] = useState({})
+    // Variabili di Stato
+    const [errors, setErrors] = useState({});
     const [formValue, setFormValue] = useState(defaultFormValue);
+    const [charCount, setCharCount] = useState(0);
+    const minCharCount = 20;
 
     const validateForm = () => {
         let newErrors = {}
@@ -71,7 +74,7 @@ function CreateHousePage() {
             newErrors.email_proprietario = "L'email non è valida";
         }
         // Descrizione immagine
-        if (formValue.descrizione_immagine && formValue.descrizione_immagine.length > 250) {
+        if (formValue.descrizione_immagine && formValue.descrizione_immagine.length > 50) {
             newErrors.descrizione_immagine = "La descrizione dell'immagine non può superare 250 caratteri";
         }
 
@@ -80,13 +83,16 @@ function CreateHousePage() {
     }
 
     function handleInputChange(event) {
-        // console.log(event);
         const { name, value, files } = event.target;
-
+        console.log(files);
+        
         setFormValue(prevFormValue => ({
             ...prevFormValue,
             [name]: name === "foto" ? files[0] : value
         }));
+        if (name === 'descrizione_annuncio') {
+            setCharCount(value.length);
+        }
     }
 
     function handleFormSubmit(event) {
@@ -112,6 +118,7 @@ function CreateHousePage() {
             },
         }).then((resp) => {
             setFormValue(defaultFormValue) //setta il formValue con il valore di default, quindi lo azzerra
+            setCharCount(0) //azzera il contatore dei caratteri
             navigate("/") //riporta nella prima pagina del sito (spesso homepage)
         }).catch((error) => {
             console.error("Errore durante l'invio del form:", error);
@@ -134,26 +141,24 @@ function CreateHousePage() {
                         <label htmlFor="titolo">Titolo *</label>
                         <input className="form-control col-3" type="text" id="titolo" name="titolo_annuncio" value={formValue.titolo_annuncio} onChange={handleInputChange} placeholder="Esempio: Villa Chiara" required />
                         <div id="titolo_annuncio" className="form-text">
-                            Il titolo deve avere un massimo di 50 caratteri.
+                            Max. 50 caratteri
                         </div>
                         {errors.titolo_annuncio && <div className="text-danger">{errors.titolo_annuncio}</div>}
                     </div>
-                    <div className="mb-3 mt-2">
-                        <label htmlFor="titolo">Descrizione annuncio *</label>
-                        <textarea className="form-control col-3" id="titolo" name="descrizione_annuncio" value={formValue.descrizione_annuncio} onChange={handleInputChange} placeholder="Esempio: Villa Chiara" required ></textarea>
-                        <div id="titolo_annuncio" className="form-text">
-                            La descrizione deve avere un minimo di 20 caratteri.
-                        </div>
+                    <div className="mb-3 mt-2 position-relative">
+                        <label htmlFor="descrizione_annuncio">Descrizione annuncio *</label>
+                        <textarea className="form-control col-3" id="descrizione_annuncio" name="descrizione_annuncio" value={formValue.descrizione_annuncio} onChange={handleInputChange} placeholder="Esempio: Villa Chiara" required ></textarea>
+                        <div className="position-absolute bottom-0 end-0 mb-1 me-4 form-text">{`${charCount}/${minCharCount}`}</div>
                         {errors.descrizione_annuncio && <div className="text-danger">{errors.descrizione_annuncio}</div>}
                     </div>
-                    <div className="col-12 mb-3">
+                    <div className="col-12 mb-3 mt-2">
                         <label htmlFor="tipologia">Tipologia *</label>
                         <select className="form-control" id="tipologia" name="tipologia" value={formValue.tipologia} onChange={handleInputChange}>
                             <option>Seleziona la tipologia</option>
                             <option value="appartamento">Appartamento</option>
-                            <option value="casa_indipendente">Casa Indipendente</option>
+                            <option value="casa indipendente">Casa Indipendente</option>
                             <option value="villa">Villa</option>
-                            <option value="villetta_schiera">Villetta a Schiera</option>
+                            <option value="villetta a schiera">Villetta a Schiera</option>
                             <option value="chalet">Chalet</option>
                             <option value="baita">Baita</option>
                         </select>
@@ -208,14 +213,14 @@ function CreateHousePage() {
                     </div>
                     <div className="col-12 mb-3">
                         <label htmlFor="immagine">Immagine Immobile</label>
-                        <input className="form-control" type="file" multiple id="immagine" name="foto" onChange={handleInputChange} accept="image/*" />
+                        <input className="form-control" type="file" id="immagine" name="foto" onChange={handleInputChange} accept=".jpg,.jpeg,.png,.gif" multiple />
                         {errors.foto && <div className="text-danger">{errors.foto}</div>}
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="titolo">Descrizione immagine</label>
-                        <input className="form-control col-3" type="text" id="titolo" name="descrizione_immagine" value={formValue.descrizione_immagine} onChange={handleInputChange} placeholder="Descrizione foto" />
-                        <div id="titolo_annuncio" className="form-text">
-                            La descrizione non deve superare 250 caratteri
+                        <label htmlFor="descrizione_immagine">Descrizione immagine</label>
+                        <input className="form-control col-3" type="text" id="descrizione_immagine" name="descrizione_immagine" value={formValue.descrizione_immagine} onChange={handleInputChange} placeholder="Descrizione foto" />
+                        <div id="descrizione_immagine" className="form-text">
+                            Max. 50 caratteri
                         </div>
                         {errors.descrizione_immagine && <div className="text-danger">{errors.descrizione_immagine}</div>}
                     </div>

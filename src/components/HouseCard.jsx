@@ -34,26 +34,28 @@ function HouseCard({ house, page, url, resetAnnuncements }) {
     }
 
     return (
-        <div className="card h-100" style={{cursor: "pointer"}}>
+        <div className="card h-100" style={{ cursor: "pointer" }}>
             <div className="position-absolute top-0 end-0 mt-2 me-2 z-5">{addLike()}</div>
-            <img src={imgUrl} className="card-img-top" alt={`Immagine ${house.titolo_annuncio}`} onClick={() => navigate(`/detail/${house.slug}`)}/>
+            <img src={imgUrl} className="card-img-top" alt={`Immagine ${house.titolo_annuncio}`} onClick={() => navigate(`/detail/${house.slug}`)} />
             <div className="card-body" onClick={() => navigate(`/detail/${house.slug}`)}>
+                <div className="d-flex justify-content-between align-items-center">
+                    <span className="badge text-bg-primary mb-3">🏡 {house.tipologia}</span>
+                    <span className="mb-3">❤️ {house.likes}</span>
+                </div>
                 <h5 className="card-title">{house.titolo_annuncio}</h5>
-                <span className="badge text-bg-primary mb-3">🏡 {house.tipologia}</span>
                 <p className="card-text">{house.indirizzo_completo}</p>
-                <p>❤️ {house.likes}</p>
                 {
                     page === "SearchPage" && (
                         <>
-                            <p>🛋️ {house.numero_camere} stanze - 🛏 {house.numero_letti} posti letto - 🛁 {house.numero_bagni} bagni</p>
-                            <p>📏 {house.metri_quadrati} m²</p>
-                            <p>❤️ {house.likes} - 📝 {house.num_recensioni} recensioni</p>
+                            <p>📏 {house.metri_quadrati} m² - 🛋️ Camere: {house.numero_camere}</p>
+                            <p>🛏 Posti letto: {house.numero_letti} - 🛁 Bagni: {house.numero_bagni} </p>
+                            <p>📝 {house.num_recensioni} recensioni</p>
                         </>
                     )
                 }
-                <Link to={`/detail/${house.slug}`} className="btn btn-success">
+                {/* <Link to={`/detail/${house.slug}`} className="btn btn-success">
                     Dettagli
-                </Link>
+                </Link> */}
             </div>
         </div>
     );

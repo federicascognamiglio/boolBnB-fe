@@ -41,6 +41,7 @@ function HouseDetailPage() {
     //n'altra chiamata axios pe ave i dati
     axios.get(`${apiUrl}/houses/${slug}`).then((resp) => {
       setAnnuncements(resp.data)
+      console.log(resp.data);
     })
   }
 
@@ -51,6 +52,8 @@ function HouseDetailPage() {
 
   //se ci sono le foto, mette le foto, altrimenti mette il placeholder
   const imgUrl = annuncements.foto && annuncements.foto.length > 0 ? `${apiUrl}/images/${annuncements.foto[0]}` : "https://placehold.co/600x400"
+  console.log(annuncements.foto);
+  
 
   return (
     <>
