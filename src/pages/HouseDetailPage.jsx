@@ -69,10 +69,6 @@ function HouseDetailPage() {
           <div className="col-md-8">
             <img src={imgUrl} className="img-fluid rounded-3 w-100 h-100 object-fit-cover pb-4" alt="Main" />
           </div>
-          {/* <div className="col-md-4 d-flex flex-column gap-2"></div>
-          {annuncements.altre_foto?.slice(0, 4).map((foto, index) => (
-            <img key={index} src={foto} className="img-fluid rounded-3" alt={`Foto ${index + 1}`} />
-          ))} */}
         </div>
         <div className="col-md-8">
           <h4 className="text mb-4">{annuncements.indirizzo_completo}</h4>
@@ -125,7 +121,7 @@ function HouseDetailPage() {
       {/* Comunicazione */}
       <section>
         <h2 className="text-center">Contatta l'host</h2>
-        <ContactForm id={annuncements.id} />
+        <ContactForm id={annuncements.id}/>
       </section>
     </>
   );
