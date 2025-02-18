@@ -84,7 +84,6 @@ function CreateHousePage() {
 
     function handleInputChange(event) {
         const { name, value, files } = event.target;
-        console.log(files);
 
         setFormValue(prevFormValue => ({
             ...prevFormValue,
