@@ -8,121 +8,78 @@ import ContactForm from '../components/ContactForm';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import AppCarousel from '../components/AppCarousel';
 
 
 function HouseDetailPage() {
   const apiUrl = import.meta.env.VITE_BACKEND_URL
 
-  const { slug } = useParams() //lo slug è un codice univoco come id, e serve per idendificare un elemento dall'altro, e rende la query più bella e leggibile
+  const { slug } = useParams();
   const [annuncements, setAnnuncements] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
 
-  const updateLike = () => {
+  function addLike() {
+    setIsLiked(true)
     axios.post(`${apiUrl}/houses/${annuncements.id}/like`).then((resp) => {
       getAnnuncements()
     })
   }
 
-  const addLike = () => {
-    const [isLiked, setIsLiked] = useState(false)
-
-    return (
-      <FontAwesomeIcon
-        icon={isLiked === true ? solidHeart : regularHeart}
-        style={{ color: isLiked ? "black" : "black", fontSize: "24px", cursor: "pointer" }}
-        onClick={() => {
-          setIsLiked(true)
-          updateLike()
-        }}
-      />
-    );
-  }
-
   function getAnnuncements() {
-    //n'altra chiamata axios pe ave i dati
     axios.get(`${apiUrl}/houses/${slug}`).then((resp) => {
       setAnnuncements(resp.data)
     })
   }
 
-  //useEffect quando viene caricata la pagina, esegue il comando impostato
   useEffect(() => {
     getAnnuncements()
   }, [])
 
-  //se ci sono le foto, mette le foto, altrimenti mette il placeholder
-  const imgUrl = annuncements.foto && annuncements.foto.length > 0 ? `${apiUrl}/images/${annuncements.foto[0]}` : "https://placehold.co/600x400"
-
-  console.log("Foto annuncio:", annuncements.foto);
-  console.log("imgUrl:", imgUrl);
+  // const imgUrl = annuncements.foto && annuncements.foto.length > 0 ? `${apiUrl}/images/${annuncements.foto[0]}` : "https://placehold.co/600x400"
 
   return (
     <>
-      <section className=''>
-        {/* Sezione dettagli */}
+      <section className='m-auto mb-5 mt-3' style={{ maxWidth: "1024px" }}>
+
+        {/* Titolo annuncio */}
         <section className="py-4">
           <div className="d-flex justify-content-between align-items-center">
-            <h1 className="fw-bold mb-3">{annuncements.titolo_annuncio}</h1>
-            <div className='d-flex'>
-              <div className='me-1'>{addLike()}</div>
+            <h1 className="fw-bold mb-4">{annuncements.titolo_annuncio}</h1>
+            <div className="d-flex">
+              <div className="me-1">
+                <FontAwesomeIcon
+                  icon={isLiked === true ? solidHeart : regularHeart}
+                  style={{ color: isLiked ? "black" : "black", fontSize: "24px", cursor: "pointer" }}
+                  onClick={addLike}
+                />
+              </div>
               <span>{annuncements.likes}</span>
             </div>
           </div>
 
-          {/* Galleria di Immagini */}
-          {/* <div className="row g-2">
-            <div className="col-md-8">
-              <img src={imgUrl} className="img-fluid rounded-3 object-fit-cover pb-2 h-100" alt="Main" />
-            </div>
-            <div className="col-md-4">
-              <div className="row g-2">
-                <div className="col-12">
-                  {annuncements.foto && annuncements.foto[1] && (
-                    <img src={`${apiUrl}/images/${annuncements.foto[1]}`} className="img-fluid rounded-3 object-fit-cover" alt="Small 1" />
-                  )}
-                </div>
-                <div className="col-12">
-                  {annuncements.foto && annuncements.foto[2] && (
-                    <img src={`${apiUrl}/images/${annuncements.foto[2]}`} className="img-fluid rounded-3 object-fit-cover" alt="Small 2" />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div> */}
-
-          {/* Galleria di Immagini */}
-          <div className="row g-2">
-            {/* Colonna principale con la prima immagine */}
-            {annuncements.foto && annuncements.foto.length > 0 && (
-              <div className="col-md-8">
+          {/* Immagini annuncio */}
+          {
+            annuncements.foto && annuncements.foto.length > 0 ? (
+              annuncements.foto.length === 1 ? (
                 <img
-                  src={imgUrl}
-                  className="img-fluid rounded-3 object-fit-cover w-100 h-100"
-                  style={{ minHeight: "400px", maxHeight: "400px", objectFit: "cover" }}
-                  alt="Main"
+                  src={`${apiUrl}/images/${annuncements.foto[0]}`}
+                  alt={`Foto ${annuncements.titolo_annuncio}`}
+                  style={{ width: "100%", maxHeight: "600px", objectFit: "cover" }}
                 />
-              </div>
-            )}
+              ) : (
+                <AppCarousel foto={annuncements.foto} />
+              )
+            ) : (
+              // Se non ci sono foto, mostra un'immagine di default
+              <img
+                src="https://placehold.co/600x400"
+                alt="Nessuna immagine disponibile"
+                style={{ width: "100%", maxHeight: "600px", objectFit: "cover" }}
+              />
+            )
+          }
 
-            {/* Colonna secondaria con le altre immagini */}
-            {annuncements.foto && annuncements.foto.length > 1 && (
-              <div className="col-md-4 d-none d-md-block">
-                <div className="row g-2 h-100">
-                  {annuncements.foto.slice(1, 10).map((curFoto, index) => (
-                    <div key={index} className="col-6">
-                      <img
-                        src={`${apiUrl}/images/${curFoto}`}
-                        className="img-fluid rounded-3 w-100"
-                        style={{ minHeight: "195px", maxHeight: "195px", objectFit: "cover" }}
-                        alt={`Small ${index + 1}`}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Descrizione annuncio */}
+          {/* Dettagli annuncio */}
           <div className="col-md-8 mt-4">
             <h4 className="text mb-4">{annuncements.indirizzo_completo}</h4>
             <h5>Descrizione:</h5>
