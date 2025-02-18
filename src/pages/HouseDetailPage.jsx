@@ -53,7 +53,7 @@ function HouseDetailPage() {
   //se ci sono le foto, mette le foto, altrimenti mette il placeholder
   const imgUrl = annuncements.foto && annuncements.foto.length > 0 ? `${apiUrl}/images/${annuncements.foto[0]}` : "https://placehold.co/600x400"
   console.log(annuncements.foto);
-  
+
 
   return (
     <>
@@ -96,21 +96,22 @@ function HouseDetailPage() {
 
       {/* Box recensioni */}
       <section className="py-4">
-        {
-          annuncements.review && (
-            <>
-              <h2 className="text-center mb-3">Recensioni</h2>
-              <div className="row row-cols-1 row-cols-xs-2 row-cols-md-3">
-                {
-                  annuncements.review.map((curReview) => (
-                    <div className="col" key={curReview.id}>
-                      <ReviewCard review={curReview} />
-                    </div>
-                  ))
-                }
-              </div>
-            </>
-          )
+        <h2 className="text-center mb-3">Recensioni</h2>
+        {annuncements.review && annuncements.review.length > 0 ? (
+          <>
+            <div className="row row-cols-1 row-cols-xs-2 row-cols-md-3">
+              {
+                annuncements.review.map((curReview) => (
+                  <div className="col" key={curReview.id}>
+                    <ReviewCard review={curReview} />
+                  </div>
+                ))
+              }
+            </div>
+          </>
+        ) : (
+          <div className="alert alert-danger">Nessun recensione disponibile</div>
+        )
         }
       </section>
 
@@ -124,7 +125,7 @@ function HouseDetailPage() {
       {/* Comunicazione */}
       <section>
         <h2 className="text-center">Contatta l'host</h2>
-        <ContactForm id={annuncements.id}/>
+        <ContactForm id={annuncements.id} />
       </section>
     </>
   );
