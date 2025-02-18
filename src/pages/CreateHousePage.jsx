@@ -85,10 +85,10 @@ function CreateHousePage() {
     function handleInputChange(event) {
         const { name, value, files } = event.target;
         console.log(files);
-        
+
         setFormValue(prevFormValue => ({
             ...prevFormValue,
-            [name]: name === "foto" ? files[0] : value
+            [name]: name === "foto" ? Array.from(files) : value
         }));
         if (name === 'descrizione_annuncio') {
             setCharCount(value.length);
@@ -105,8 +105,10 @@ function CreateHousePage() {
         const formData = new FormData()
 
         for (let key in formValue) {
-            if (key === "foto" && formValue.foto instanceof File) {
-                formData.append("foto", formValue.foto);
+            if (key === "foto" && Array.isArray(formValue.foto)) {
+                formValue.foto.forEach(file => {
+                    formData.append("foto", file);
+                });
             } else if (formValue[key] !== undefined && formValue[key] !== null) {
                 formData.append(key, formValue[key]);
             }
@@ -129,7 +131,7 @@ function CreateHousePage() {
         <>
             <nav aria-label="breadcrumb" className="pb-3">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><a href="/" style={{color: "#013220"}}>Home</a></li>
+                    <li className="breadcrumb-item"><a href="/" style={{ color: "#013220" }}>Home</a></li>
                     <li className="breadcrumb-item active" aria-current="page">Aggiungi annuncio</li>
                 </ol>
             </nav>
