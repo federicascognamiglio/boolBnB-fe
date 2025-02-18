@@ -21,11 +21,9 @@ function SearchPage() {
   const [annuncements, setAnnuncements] = useState([])
 
   function handleInputChange(event) {
-    //assegno ad una variabile il nome del tag su cui  avvenuto un evento
     const keyToChange = event.target.name
-    //assegno ad una variabile il valore del tag su cui è avvenuto l'evento
     const valueToChange = event.target.value
-    //prendo i nuovi valori e li inserisco nell'oggetto, in corrispondenza delle rispettive chiavi
+
     const newFormValue = {
       ...formValue, //seziono l'oggetto chiave per chiave
       [keyToChange]: valueToChange //per ogni chiave
@@ -33,14 +31,14 @@ function SearchPage() {
     setFormValue(newFormValue) //aggiorno l'oggetto con i nuovi valori
   }
 
-  function getAnnuncements() { //funzione di ricerca avanzata
+  function getAnnuncements() { 
     const params = {} //è l'oggetto valorizzato dall'input dell'utente in base alla ricerca che vuole fare
 
     if (formValue.indirizzo_completo.length > 0) {
-      params.indirizzo_completo = formValue.indirizzo_completo; // citta: milano
+      params.indirizzo_completo = formValue.indirizzo_completo; 
     }
     if (formValue.numero_camere.length > 0) {
-      params.numero_camere = formValue.numero_camere; // minstanze: 2
+      params.numero_camere = formValue.numero_camere; 
     }
     if (formValue.numero_letti.length > 0) {
       params.numero_letti = formValue.numero_letti;
@@ -64,7 +62,7 @@ function SearchPage() {
   return (
     <>
       {/* Titolo */}
-      <h2 className="mb-3">La tua ricerca</h2>
+      <h2 className="mt-4">La tua ricerca</h2>
 
       {/* Barra ricerca avanzata */}
       <section className="py-3">
@@ -123,20 +121,11 @@ function SearchPage() {
               <option value="Chalet">Monolocale</option>
             </select>
           </div>
-          {/* <div className="col-md-2">
-            <button
-              type="search"
-              className="btn btn-primary"
-              onClick={getAnnuncements}
-            >
-              Cerca
-            </button>
-          </div> */}
         </div>
       </section>
 
       {/* Lista annunci */}
-      <section className="py-3">
+      <section className="py-3 mb-5">
         {
           formValue !== "" && (
             <h5 className="mb-3">

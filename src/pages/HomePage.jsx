@@ -38,7 +38,7 @@ function HomePage() {
 
     return (
         <>
-            <h1 className="mb-4">Appartamenti in affitto</h1>
+            <h1 className="my-4">Appartamenti in affitto</h1>
             {/* Barra di ricerca semplice */}
             <section className="py-3">
                 <div className="d-flex justify-content-between">
@@ -55,7 +55,7 @@ function HomePage() {
             </section>
 
             {/* Lista annunci */}
-            <section className="py-3">
+            <section className="py-3 mb-5">
                 <h4 className="mb-3">I più amati</h4>
                 {annuncements &&
                     annuncements.length > 0 ? (
