@@ -24,8 +24,20 @@ img {
     color: #013220;
 }
 
-/* .outline :hover {
-    background-color: #013220 !important; 
-    color: gold !important;
-} */
+.modal-content.success {
+    background-color: #d4edda  !important;
+    color: #155724 !important;
+}
 
+.modal-content.error {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+}
+
+.modal-header.success {
+    border-bottom: 1px solid #c3e6cb !important;
+}
+
+.modal-header.error {
+    border-bottom: 1px solid #f5c6cb !important;
+}

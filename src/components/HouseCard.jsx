@@ -38,7 +38,7 @@ function HouseCard({ house, page, url, resetAnnuncements }) {
             <div className="position-absolute top-0 end-0 mt-2 me-2 z-5">{addLike()}</div>
             <img src={imgUrl} className="card-img-top" alt={`Immagine ${house.titolo_annuncio}`} onClick={() => navigate(`/detail/${house.slug}`)} />
             <div className="card-body" onClick={() => navigate(`/detail/${house.slug}`)}>
-                <div className="d-flex justify-content-between mb-3">
+                <div className="d-flex justify-content-between align-items-start mb-3">
                     {
                         page === "HomePage" && (
                             <>

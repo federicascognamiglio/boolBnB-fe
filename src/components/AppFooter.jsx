@@ -3,7 +3,7 @@ import React from "react";
 function AppFooter() {
   return (
     <footer
-      className="text-center py-5 vh-20 bottom-0"
+      className="text-center py-5 bottom-0"
       style={{ backgroundColor: "#013220", color: "gold", fontSize: "0.8rem" }}
     >
       <div className="container">
