@@ -13,7 +13,7 @@ function AppHeader() {
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
                             {/* <a className="nav-link active" style={{ color: "gold", fontSize: "1rem" }} aria-current="page" href="/">Home</a> */}
-                            <a className="nav-link me-4" style={{ color: "gold", fontSize: "1rem" }} href="/create">Aggiungi annuncio</a>
+                            <a className="nav-link ms-auto" style={{ color: "gold", fontSize: "1rem" }} href="/create">Aggiungi annuncio</a>
                         </div>
                     </div>
                 </div>

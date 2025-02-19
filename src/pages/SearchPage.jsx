@@ -79,7 +79,7 @@ function SearchPage() {
               onChange={handleInputChange}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-sm-6 col-md-3">
             <label className="form-label" htmlFor="numero_camere">Numero stanze</label>
             <input
               id="numero_camere"
@@ -92,7 +92,7 @@ function SearchPage() {
               onChange={handleInputChange}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-sm-6 col-md-3">
             <label className="form-label" htmlFor="numero_letti">Numero letti</label>
             <input
               id="numero_letti"

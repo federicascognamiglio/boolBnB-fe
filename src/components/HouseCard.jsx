@@ -38,7 +38,7 @@ function HouseCard({ house, page, url, resetAnnuncements }) {
             <div className="position-absolute top-0 end-0 mt-2 me-2 z-5">{addLike()}</div>
             <img src={imgUrl} className="card-img-top" alt={`Immagine ${house.titolo_annuncio}`} onClick={() => navigate(`/detail/${house.slug}`)} />
             <div className="card-body" onClick={() => navigate(`/detail/${house.slug}`)}>
-                <div className="d-flex justify-content-between align-items-start mb-3">
+                <div className="d-flex justify-content-between mb-3">
                     {
                         page === "HomePage" && (
                             <>
@@ -56,7 +56,7 @@ function HouseCard({ house, page, url, resetAnnuncements }) {
                     {
                         page === "SearchPage" && (
                             <>
-                                <div className="d-flex flex-column">
+                                <div className="d-flex flex-column w-100">
                                     <div className="d-flex justify-content-between align-items-center  mb-3">
                                         <div>
                                             <span className="badge my-btn text-bg-primary">{house.tipologia}</span>
@@ -75,7 +75,7 @@ function HouseCard({ house, page, url, resetAnnuncements }) {
                         )
                     }
                 </div>
-                <div className="d-flex flex-column justify-content-between align-items-start">
+                <div className="d-flex flex-column justify-content-between">
                     {
                         page === "SearchPage" && (
                             <>
