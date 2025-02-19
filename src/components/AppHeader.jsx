@@ -5,7 +5,7 @@ function AppHeader() {
         <>
             <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#013220" }}>
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/"><img className="logo ms-4" src="../images/bnb_logo.png" alt="" /></a>
+                    <a className="navbar-brand" href="/"><img className="logo ms-5" src="../images/logoType.PNG" style={{objectFit: "contain", transform: "scale(1.5)"}} alt="" /></a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
                     style={{ backgroundColor: "white" }}>
                         <span className="navbar-toggler-icon"></span>
