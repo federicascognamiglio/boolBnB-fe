@@ -38,24 +38,58 @@ function HouseCard({ house, page, url, resetAnnuncements }) {
             <div className="position-absolute top-0 end-0 mt-2 me-2 z-5">{addLike()}</div>
             <img src={imgUrl} className="card-img-top" alt={`Immagine ${house.titolo_annuncio}`} onClick={() => navigate(`/detail/${house.slug}`)} />
             <div className="card-body" onClick={() => navigate(`/detail/${house.slug}`)}>
-                <div className="d-flex justify-content-between align-items-center">
-                    <span className="badge text-bg-primary mb-3">🏡 {house.tipologia}</span>
-                    <span className="mb-3">❤️ {house.likes}</span>
+                <div className="d-flex justify-content-between align-items-start mb-3">
+                    {
+                        page === "HomePage" && (
+                            <>
+                                <div>
+                                    <h5 className="card-title">{house.titolo_annuncio}</h5>
+                                    <p className="card-text">{house.indirizzo_completo}</p>
+                                </div>
+                                <div className="d-flex align-items-center">
+                                    <FontAwesomeIcon icon={solidHeart} className="me-1" />
+                                    <span> {house.likes}</span>
+                                </div>
+                            </>
+                        )
+                    }
+                    {
+                        page === "SearchPage" && (
+                            <>
+                                <div className="d-flex flex-column">
+                                    <div className="d-flex justify-content-between align-items-center  mb-3">
+                                        <div>
+                                            <span className="badge my-btn text-bg-primary">{house.tipologia}</span>
+                                        </div>
+                                        <div className="d-flex align-items-center">
+                                            <FontAwesomeIcon icon={solidHeart} className="me-1" />
+                                            <span> {house.likes}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 className="card-title">{house.titolo_annuncio}</h5>
+                                        <p className="card-text">{house.indirizzo_completo}</p>
+                                    </div>
+                                </div>
+                            </>
+                        )
+                    }
                 </div>
-                <h5 className="card-title">{house.titolo_annuncio}</h5>
-                <p className="card-text">{house.indirizzo_completo}</p>
-                {
-                    page === "SearchPage" && (
-                        <>
-                            <p>📏 {house.metri_quadrati} m² - 🛋️ Camere: {house.numero_camere}</p>
-                            <p>🛏 Posti letto: {house.numero_letti} - 🛁 Bagni: {house.numero_bagni} </p>
-                            <p>📝 {house.num_recensioni} recensioni</p>
-                        </>
-                    )
-                }
-                {/* <Link to={`/detail/${house.slug}`} className="btn btn-success">
-                    Dettagli
-                </Link> */}
+                <div className="d-flex flex-column justify-content-between align-items-start">
+                    {
+                        page === "SearchPage" && (
+                            <>
+                                <div className="d-flex justify-content-between flex-wrap">
+                                    <p>{house.numero_camere} Camere</p>
+                                    <p>{house.numero_letti} Posti letto</p>
+                                    <p>{house.numero_bagni} Bagni</p>
+                                    <p>{house.metri_quadrati} m² </p>
+                                    <p>Recensioni: {house.num_recensioni}</p>
+                                </div>
+                            </>
+                        )
+                    }
+                </div>
             </div>
         </div>
     );

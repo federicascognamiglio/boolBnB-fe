@@ -1,19 +1,22 @@
 import axios from "axios"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAlertContext } from "../context/AlertContext";
 
 function CreateHousePage() {
     const apiUrl = import.meta.env.VITE_BACKEND_URL
     const navigate = useNavigate()
 
+    const { setAlertData } = useAlertContext();
+
     const defaultFormValue = {
         titolo_annuncio: "",
         descrizione_annuncio: "",
         tipologia: "",
-        numero_camere: "",
-        numero_letti: "",
-        numero_bagni: "",
-        metri_quadrati: "",
+        numero_camere: 0,
+        numero_letti: 0,
+        numero_bagni: 0,
+        metri_quadrati: 0,
         indirizzo: "",
         cap: "",
         citta: "",
@@ -27,8 +30,6 @@ function CreateHousePage() {
     // Variabili di Stato
     const [errors, setErrors] = useState({});
     const [formValue, setFormValue] = useState(defaultFormValue);
-    const [charCount, setCharCount] = useState(0);
-    const minCharCount = 20;
 
     const validateForm = () => {
         let newErrors = {}
@@ -89,9 +90,6 @@ function CreateHousePage() {
             ...prevFormValue,
             [name]: name === "foto" ? Array.from(files) : value
         }));
-        if (name === 'descrizione_annuncio') {
-            setCharCount(value.length);
-        }
     }
 
     function handleFormSubmit(event) {
@@ -119,41 +117,48 @@ function CreateHousePage() {
             },
         }).then((resp) => {
             setFormValue(defaultFormValue) //setta il formValue con il valore di default, quindi lo azzerra
-            setCharCount(0) //azzera il contatore dei caratteri
+            setAlertData({ type: "success", message: "Annuncio inserito correttamente" })
             navigate("/") //riporta nella prima pagina del sito (spesso homepage)
         }).catch((error) => {
             console.error("Errore durante l'invio del form:", error);
+            setAlertData({ type: "danger", message: "Errore durante l'invio del form" })
         });
     }
 
     return (
         <>
-            <nav aria-label="breadcrumb" className="pb-3">
+            {/* {Breadcrumb} */}
+            <nav aria-label="breadcrumb" className="my-4">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><a href="/" style={{ color: "#013220" }}>Home</a></li>
                     <li className="breadcrumb-item active" aria-current="page">Aggiungi annuncio</li>
                 </ol>
             </nav>
-            <h2>Aggiungi un nuovo annuncio</h2>
+            
+            <section className="intro-section mb-5">
+                <h2>Benvenuto nella sezione di aggiunta annuncio</h2>
+                <p>Qui puoi inserire i dettagli del tuo immobile per metterlo in vendita o in affitto. Compila tutti i campi obbligatori e fornisci quante più informazioni possibili per attirare potenziali acquirenti o affittuari.</p>
+            </section>
+
+            <h4>Compila il modulo</h4>
             <p className="pb-4">I campi contrassegnati con * sono obbligatori</p>
             <form className="py-4" onSubmit={handleFormSubmit}>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                    <div className="mb-3 mt-2">
+                    <div className="mb-3 mt-2 position-relative">
                         <label htmlFor="titolo">Titolo *</label>
-                        <input className="form-control col-3" type="text" id="titolo" name="titolo_annuncio" value={formValue.titolo_annuncio} onChange={handleInputChange} placeholder="Esempio: Villa Chiara" required />
-                        <div id="titolo_annuncio" className="form-text">
-                            Max. 50 caratteri
-                        </div>
+                        <input className="form-control col-3" type="text" id="titolo" name="titolo_annuncio" value={formValue.titolo_annuncio} onChange={handleInputChange} placeholder="Esempio: Villa Chiara" required />     
                         {errors.titolo_annuncio && <div className="text-danger">{errors.titolo_annuncio}</div>}
                     </div>
-                    <div className="mb-3 mt-2 position-relative">
+                    <div className="mb-3 mt-2">
                         <label htmlFor="descrizione_annuncio">Descrizione annuncio *</label>
                         <textarea className="form-control col-3" id="descrizione_annuncio" name="descrizione_annuncio" value={formValue.descrizione_annuncio} onChange={handleInputChange} placeholder="Esempio: Villa Chiara" required ></textarea>
-                        <div className="position-absolute bottom-0 end-0 mb-1 me-4 form-text">{`${charCount}/${minCharCount}`}</div>
+                        <div id="titolo_annuncio" className="form-text">
+                            Min. 20 caratteri
+                        </div>
                         {errors.descrizione_annuncio && <div className="text-danger">{errors.descrizione_annuncio}</div>}
                     </div>
                     <div className="col-12 mb-3 mt-2">
-                        <label htmlFor="tipologia">Tipologia *</label>
+                        <label htmlFor="tipologia">Tipologia</label>
                         <select className="form-control" id="tipologia" name="tipologia" value={formValue.tipologia} onChange={handleInputChange}>
                             <option>Seleziona la tipologia</option>
                             <option value="appartamento">Appartamento</option>
@@ -166,7 +171,7 @@ function CreateHousePage() {
                     </div>
                     <div className="col-4 mb-3">
                         <label htmlFor="stanze">Numero Stanze *</label>
-                        <input className="form-control" type="number" min="0" id="stanze" name="numero_camere" value={formValue.numero_camere} onChange={handleInputChange} />
+                        <input className="form-control" type="number" min="0" id="stanze" name="numero_camere" value={formValue.numero_camere} onChange={handleInputChange} required/>
                         {errors.numero_camere && <div className="text-danger">{errors.numero_camere}</div>}
                     </div>
                     <div className="col-4 mb-3">
@@ -191,7 +196,7 @@ function CreateHousePage() {
                     </div>
                     <div className="col-3 mb-3">
                         <label htmlFor="cap">CAP *</label>
-                        <input className="form-control" type="text" id="cap" name="cap" value={formValue.cap} onChange={handleInputChange} required />
+                        <input className="form-control" type="text" id="cap" name="cap" value={formValue.cap} onChange={handleInputChange} placeholder="80000" required />
                         <div id="titolo_annuncio" className="form-text">
                             Il CAP deve essere un numero di 5 cifre
                         </div>
@@ -227,7 +232,7 @@ function CreateHousePage() {
                     </div>
                 </div>
                 <div className="text-end">
-                    <button className="btn btn-success mt-3 mb-3" type="submit">Invia</button>
+                    <button className="btn btn-lg my-btn mt-3 mb-3" type="submit">Invia</button>
                 </div>
             </form>
         </>

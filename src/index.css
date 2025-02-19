@@ -8,3 +8,24 @@ img {
     width: 100px;
     height: 60px;
 }
+
+.my-btn {
+    color: #013220 !important;
+    background-color: #ffd400 !important;
+}
+
+.my-btn-inverse {
+    background-color: #013220 !important;
+    color: gold !important;
+}
+
+.outline {
+    border: 1px solid #013220;
+    color: #013220;
+}
+
+/* .outline :hover {
+    background-color: #013220 !important; 
+    color: gold !important;
+} */
+

@@ -31,14 +31,14 @@ function SearchPage() {
     setFormValue(newFormValue) //aggiorno l'oggetto con i nuovi valori
   }
 
-  function getAnnuncements() { 
+  function getAnnuncements() {
     const params = {} //è l'oggetto valorizzato dall'input dell'utente in base alla ricerca che vuole fare
 
     if (formValue.indirizzo_completo.length > 0) {
-      params.indirizzo_completo = formValue.indirizzo_completo; 
+      params.indirizzo_completo = formValue.indirizzo_completo;
     }
     if (formValue.numero_camere.length > 0) {
-      params.numero_camere = formValue.numero_camere; 
+      params.numero_camere = formValue.numero_camere;
     }
     if (formValue.numero_letti.length > 0) {
       params.numero_letti = formValue.numero_letti;
@@ -62,7 +62,7 @@ function SearchPage() {
   return (
     <>
       {/* Titolo */}
-      <h2 className="mt-4">La tua ricerca</h2>
+      <h3 className="mt-4">Ricerca avanzata</h3>
 
       {/* Barra ricerca avanzata */}
       <section className="py-3">
@@ -125,7 +125,7 @@ function SearchPage() {
       </section>
 
       {/* Lista annunci */}
-      <section className="py-3 mb-5">
+      <section className="py-3 mb-3">
         {
           formValue !== "" && (
             <h5 className="mb-3">
@@ -133,20 +133,18 @@ function SearchPage() {
             </h5>
           )
         }
-        {annuncements &&
-          annuncements.length > 0 ? (
-          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            {
-              annuncements.map((curAnnuncement) => (
-                <div key={curAnnuncement.id} className="col">
-                  <HouseCard house={curAnnuncement} page="SearchPage" url={apiUrl} resetAnnuncements={getAnnuncements} />
-                </div>
-              ))
-            }
-          </div>
-        ) : (
-          <div className="alert alert-danger">Nessun annuncio trovato</div>
-        )
+        {
+          annuncements && annuncements.length > 0 && (
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+              {
+                annuncements.map((curAnnuncement) => (
+                  <div key={curAnnuncement.id} className="col">
+                    <HouseCard house={curAnnuncement} page="SearchPage" url={apiUrl} resetAnnuncements={getAnnuncements} />
+                  </div>
+                ))
+              }
+            </div>
+          )
         }
       </section>
     </>

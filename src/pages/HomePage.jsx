@@ -38,25 +38,29 @@ function HomePage() {
 
     return (
         <>
-            <h1 className="my-4">Appartamenti in affitto</h1>
+            <section className="intro-section pt-5 text-center">
+                <h1 className="display-4">Benvenuti su BoolBnB</h1>
+                <p className="lead">Trova la casa dei tuoi sogni con facilità e velocità</p>
+            </section>
+
             {/* Barra di ricerca semplice */}
             <section className="py-3">
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-center">
                     <input
                         type="search"
                         value={search}
-                        className="form-control me-2"
+                        className="form-control me-2 outline w-50"
                         placeholder="Dove vuoi andare..."
                         onChange={(event) => setSearch(event.target.value)}
                         onKeyUp={handleKeyUp}
                     />
-                    <button className="btn btn-light" onClick={() => { navigate(`/search?indirizzo_completo=${encodeURIComponent(search)}`); }}>Cerca</button>
+                    <button className="btn outline" onClick={() => { navigate(`/search?indirizzo_completo=${encodeURIComponent(search)}`); }}>Cerca</button>
                 </div>
             </section>
 
             {/* Lista annunci */}
             <section className="py-3 mb-5">
-                <h4 className="mb-3">I più amati</h4>
+                <p className="fs-5 mb-3">I più amati</p>
                 {annuncements &&
                     annuncements.length > 0 ? (
                     <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -69,9 +73,14 @@ function HomePage() {
                         }
                     </div>
                 ) : (
-                    <div className="alert alert-danger">Nessun annuncio trovato</div>
+                    <div>Nessun annuncio inserito</div>
                 )
                 }
+            </section>
+
+            <section className="outro-section pb-5 text-center">
+                <h2>Grazie per aver visitato BoolBnB!</h2>
+                <p>Esplora altre sezioni del nostro sito per trovare ulteriori offerte e informazioni utili.</p>
             </section>
         </>
     )

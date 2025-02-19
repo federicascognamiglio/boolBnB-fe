@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useAlertContext } from "../context/AlertContext";
+
 
 function ReviewForm({ id, resetAnnuncement }) {
     const apiUrl = import.meta.env.VITE_BACKEND_URL
@@ -14,8 +16,7 @@ function ReviewForm({ id, resetAnnuncement }) {
     // Variabili di Stato
     const [formValue, setFormValue] = useState(defaultFormValue);
     const [errors, setErrors] = useState([]);
-    const [charCount, setCharCount] = useState(0);
-    const minCharCount = 20;
+    const { setAlertData } = useAlertContext();
 
     function validateForm() {
         let newErrors = {}
@@ -46,9 +47,6 @@ function ReviewForm({ id, resetAnnuncement }) {
             [keyToChange]: valueToChange
         }
         setFormValue(newFormValue)
-        if (keyToChange === 'commento') {
-            setCharCount(valueToChange.length);
-        }
     }
 
     function handleFormSubmit(event) {
@@ -63,7 +61,16 @@ function ReviewForm({ id, resetAnnuncement }) {
 
             setFormValue(defaultFormValue)
             resetAnnuncement()
-            setCharCount(0)
+            setAlertData({
+                type: "success",
+                message: "Recensione inviata con successo"
+            })
+        }).catch((err) => {
+            console.error("Errore durante l'invio del form:", err);
+            setAlertData({
+                type: "danger",
+                message: "Errore nell'invio della recensione"
+            })
         })
     }
 
@@ -71,23 +78,25 @@ function ReviewForm({ id, resetAnnuncement }) {
         <>
             <form onSubmit={handleFormSubmit}>
                 <div className="mb-3">
-                    <label htmlFor="username" className="form-label">Nome Utente *</label>
+                    <label htmlFor="username" className="form-label">Nome Utente</label>
                     <input onChange={handleReviewInput} name="nome" value={formValue.nome} type="text" className="form-control" id="username" placeholder="Inserisci il tuo nome" required />
                     {errors.nome && <div className="text-danger">{errors.nome}</div>}
                 </div>
                 <div className="mb-3 position-relative">
-                    <label htmlFor="commento" className="form-label">Commento *</label>
-                    <textarea onChange={handleReviewInput} name="commento" value={formValue.commento} className="form-control" id="comment" rows="4" placeholder="Scrivi la tua recensione" required></textarea>
-                    <div className="position-absolute bottom-0 end-0 mb-1 me-3 form-text">{`${charCount}/${minCharCount}`}</div>
+                    <label htmlFor="commento" className="form-label">Commento</label>
+                    <textarea onChange={handleReviewInput} name="commento" value={formValue.commento} className="form-control" id="commento" rows="4" placeholder="Scrivi la tua recensione" required></textarea>
+                    <div id="commento" className="form-text">
+                        Min. 20 caratteri
+                    </div>
                     {errors.commento && <div className="text-danger">{errors.commento}</div>}
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="giorni_permanenza" className="form-label">Durata del soggiorno *</label>
+                    <label htmlFor="giorni_permanenza" className="form-label">Durata del soggiorno</label>
                     <input onChange={handleReviewInput} name="giorni_permanenza" value={formValue.giorni_permanenza} type="number" min="0" className="form-control" id="giorni_permanenza" rows="4" placeholder="" required />
                     {errors.giorni_permanenza && <div className="text-danger">{errors.giorni_permanenza}</div>}
                 </div>
                 <div className="text-end">
-                    <button type="submit" className="btn btn-success">Invia</button>
+                    <button type="submit" className="btn my-btn">Invia</button>
                 </div>
             </form>
         </>

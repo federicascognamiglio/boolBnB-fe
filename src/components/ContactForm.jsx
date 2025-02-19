@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
+import { useAlertContext } from "../context/AlertContext";
+
 
 function ContactForm({ id }) {
     const apiUrl = import.meta.env.VITE_BACKEND_URL
@@ -8,11 +10,11 @@ function ContactForm({ id }) {
         email_ospite: "",
         messaggio: ""
     }
+
     // Variabili di Stato
     const [formValue, setFormValue] = useState(defaultFormValue)
     const [errors, setErrors] = useState([])
-    const [charCount, setCharCount] = useState(0);
-    const minCharCount = 20;
+    const { setAlertData } = useAlertContext();
 
     function validateForm() {
         let newErrors = {}
@@ -39,9 +41,6 @@ function ContactForm({ id }) {
             [keyToChange]: valueToChange
         }
         setFormValue(newFormValue)
-        if (keyToChange === 'messaggio') {
-            setCharCount(valueToChange.length);
-        }
     }
 
     function handleFormSubmit(event) {
@@ -53,7 +52,16 @@ function ContactForm({ id }) {
 
         axios.post(`${apiUrl}/houses/${id}/message`, formValue).then((resp) => {
             setFormValue(defaultFormValue)
-            setCharCount(0)
+            setAlertData({
+                type: "success",
+                message: "Messaggio inviato con successo"
+            })
+        }).catch((err) => {
+            console.error("Errore durante l'invio del form:", err);
+            setAlertData({
+                type: "danger",
+                message: "Errore nell'invio del messaggio"
+            })
         })
     }
 
@@ -67,11 +75,13 @@ function ContactForm({ id }) {
             <div className="mb-3 position-relative">
                 <label htmlFor="messagio" className="form-label">Messaggio</label>
                 <textarea name="messaggio" value={formValue.messaggio} onChange={handleChangeInput} className="form-control " id="messagio" rows="3"></textarea>
-                <div className="position-absolute bottom-0 end-0 mb-1 me-3 form-text">{`${charCount}/${minCharCount}`}</div>
+                <div id="commento" className="form-text">
+                    Min. 20 caratteri
+                </div>
                 {errors.messaggio && <div className="text-danger">{errors.messaggio}</div>}
             </div>
             <div className="text-end">
-                <button type="submit" className="btn btn-success">Invia</button>
+                <button type="submit" className="btn my-btn">Invia</button>
             </div>
         </form>
     )

@@ -35,11 +35,18 @@ function HouseDetailPage() {
     getAnnuncements()
   }, [])
 
-  // const imgUrl = annuncements.foto && annuncements.foto.length > 0 ? `${apiUrl}/images/${annuncements.foto[0]}` : "https://placehold.co/600x400"
-
   return (
     <>
       <section className='m-auto mb-5 mt-3' style={{ maxWidth: "1024px" }}>
+
+        {/* {Breadcrumb} */}
+        <nav aria-label="breadcrumb" className="my-4">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item"><a href="/" style={{ color: "#013220" }}>Home</a></li>
+            <li className="breadcrumb-item"><a href="/search" style={{ color: "#013220" }}>Ricerca avanzata</a></li>
+            <li className="breadcrumb-item active" aria-current="page">Dettagli annuncio</li>
+          </ol>
+        </nav>
 
         {/* Titolo annuncio */}
         <section className="py-4">
@@ -104,37 +111,50 @@ function HouseDetailPage() {
         {/* Box recensioni */}
         <section className="py-4">
           <h2 className="text-center mb-3">Recensioni</h2>
-          {annuncements.review && annuncements.review.length > 0 ? (
-            <>
-              <div className="row row-cols-1 row-cols-xs-2 row-cols-md-3">
+          {
+            annuncements.review && (
+              <>
                 {
-                  annuncements.review.map((curReview) => (
-                    <div className="col" key={curReview.id}>
-                      <ReviewCard review={curReview} />
-                    </div>
-                  ))
+                  annuncements.review.length > 0 ?
+                    (
+                      <p className='form-text text-center'>{`Numero di recensioni: ${annuncements.review.length}`}</p>
+                    ) : (
+                      <p className='form-text text-center'>Nessuna recensione</p>
+                    )
                 }
-              </div>
-            </>
-          ) : (
-            <div className="alert alert-danger">Nessun recensione disponibile</div>
-          )
+                <div className="row row-cols-1 row-cols-xs-2 row-cols-md-3">
+                  {
+                    annuncements.review.map((curReview) => (
+                      <div className="col" key={curReview.id}>
+                        <ReviewCard review={curReview} />
+                      </div>
+                    ))
+                  }
+                </div>
+              </>
+            )
           }
         </section>
 
         {/* Aggiungi recensione */}
         <section className="py-4">
           <h2 className="text-center">Aggiungi una Recensione</h2>
-          <p className='form-text text-center'>I campi contrassegnati con * sono obbligatori</p>
           <ReviewForm id={annuncements.id} resetAnnuncement={getAnnuncements} />
         </section>
 
         {/* Comunicazione */}
-        <section>
+        <section className='mb-5'>
           <h2 className="text-center">Contatta l'host</h2>
           <ContactForm id={annuncements.id} />
         </section>
-      </section>
+            
+        {/* Outro */}
+        <section className="outro-section p-3 text-center">
+          <h2>Grazie per aver visitato il nostro annuncio!</h2>
+          <p>Se hai trovato utile questa pagina, esplora altre sezioni del nostro sito per ulteriori offerte e informazioni.</p>
+        </section>
+
+      </section >
     </>
   );
 };
